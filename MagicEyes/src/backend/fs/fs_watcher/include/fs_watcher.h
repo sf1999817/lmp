@@ -24,11 +24,16 @@ struct event_read {
 
 /*write*/
 struct fs_t {
-    unsigned long inode_number;
-    pid_t pid;
-    size_t real_count;
-    size_t count;
+    unsigned long inode_number;  // inode号
+    pid_t pid;                   // 进程ID
+    size_t real_count;           // 实际写入字节数
+    size_t count;                // 请求写入的字节数
+    unsigned int flags;          // 文件访问模式
+    mode_t mode;                 // 文件权限
+    char comm[TASK_COMM_LEN];    // 进程名称
+    char filename[path_size];     // 文件名
 };
+
 
 /*disk_io_visit*/
 struct event_disk_io_visit {
