@@ -70,7 +70,6 @@ int kprobe_vfs_write(struct pt_regs *ctx)
   fs_data.inode_number = inode_number;
   fs_data.mode = mode;
   fs_data.flags = flags;
-
   bpf_map_update_elem(&data, &pid, &fs_data, BPF_ANY);
   return 0;
 }

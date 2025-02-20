@@ -55,7 +55,6 @@ struct event_block_rq_issue {
     int total_io; //I/O总大小
 };
 
-
 /*CacheTrack*/
 struct event_CacheTrack{
     char comm[16];

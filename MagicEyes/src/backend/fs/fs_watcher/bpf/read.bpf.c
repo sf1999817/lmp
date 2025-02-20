@@ -78,6 +78,5 @@ int kretprobe_exit_read(struct pt_regs *ctx)
 
 	// 删除哈希表中的该事件数据，避免泄露
 	bpf_map_delete_elem(&data, &pid);
-	
 	return 0;
 }
