@@ -577,4 +577,5 @@ CacheTrack_cleanup:
     CacheTrack_bpf__destroy(skel_CacheTrack);
 
     return err;
+
 }
