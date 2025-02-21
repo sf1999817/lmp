@@ -1,10 +1,10 @@
 #ifndef __FS_WATCHER_H
 #define __FS_WATCHER_H
 
-/*open*/
 #define path_size 256
 #define TASK_COMM_LEN 16
 
+/*open*/
 struct event_open {
     pid_t pid;          // 进程 ID
     int dfd;            // 目录文件描述符
@@ -34,7 +34,6 @@ struct fs_t {
     char filename[path_size];     // 文件名
 };
 
-
 /*disk_io_visit*/
 struct event_disk_io_visit {
     long timestamp; // 时间戳
@@ -54,6 +53,7 @@ struct event_block_rq_issue {
     char comm[TASK_COMM_LEN]; // 进程名
     int total_io; //I/O总大小
 };
+
 
 /*CacheTrack*/
 struct event_CacheTrack{

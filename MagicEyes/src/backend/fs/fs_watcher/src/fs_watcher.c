@@ -414,6 +414,10 @@ static int handle_event_write(void *ctx, void *data, size_t data_sz)
     time(&t);
     tm = localtime(&t);
     strftime(ts, sizeof(ts), "%H:%M:%S", tm);
+    //进行PID和文件名过滤
+    if ((env.pid != -1 && env.pid != e->pid)) {
+        return 0;  // 如果不匹配PID或文件名，则跳过此事件
+    }
 
     char *error_message;
     if (e->real_count < 0) {
@@ -422,7 +426,7 @@ static int handle_event_write(void *ctx, void *data, size_t data_sz)
                ts, e->pid, e->inode_number, error_message, e->count,
                e->filename,  mode_to_str(e->mode), flags_to_str(e->flags), e->comm);
     } else {
-        printf("%-8s %-10ld %-10ld %-15ld %-15ld %-15s %-15s %-15s\n",
+        printf("%-8s %-10ld %-10ld %-15ld %-15ld %-15s %-40s %-15s\n",
                ts, e->pid, e->inode_number, e->real_count, e->count,
                mode_to_str(e->mode), flags_to_str(e->flags), e->comm);
     }
@@ -505,7 +509,7 @@ static int process_write(struct write_bpf *skel_write){
 
     LOAD_AND_ATTACH_SKELETON(skel_write,write);
 
-    printf("%-8s %-10s %-10s %-15s %-15s %-15s %-15s %-15s\n",
+    printf("%-8s %-10s %-10s %-15s %-15s %-15s %-40s %-15s\n",
        "TIMESTAMP", "INODE", "PID", "REAL_COUNT", "COUNT",
         "MODE", "FLAGS", "COMM");
 

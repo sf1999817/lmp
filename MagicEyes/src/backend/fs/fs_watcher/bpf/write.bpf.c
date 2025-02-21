@@ -5,7 +5,7 @@
 #include "fs_watcher.h"
 
 char LICENSE[] SEC("license") = "Dual BSD/GPL";
-#define PATH_MAX 256
+
 struct {
 	__uint(type, BPF_MAP_TYPE_HASH);
 	__uint(max_entries, 1024);
@@ -70,6 +70,7 @@ int kprobe_vfs_write(struct pt_regs *ctx)
   fs_data.inode_number = inode_number;
   fs_data.mode = mode;
   fs_data.flags = flags;
+
   bpf_map_update_elem(&data, &pid, &fs_data, BPF_ANY);
   return 0;
 }
@@ -89,7 +90,7 @@ int kretprobe_vfs_write_ret(struct pt_regs *ctx)
   fs_data = bpf_map_lookup_elem(&data, &pid);
   if (!fs_data) {
     bpf_printk("Failed to retrieve fs data\n");
-      return 0;
+    return 0;
   }
 
   // 创建事件并保存返回值
